@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/header.ejs") %>
+    
+    <main>
+      <ul class="messages">
+        <% if(messages.length > 0)  { %>
+          <% messages.map((message) => {%>
+        <li>
+          <div class="message-block"><h1><%= message.title%></h1> <h3><%= message.author%></h3></div>
+          <div><p><%= message.messageText%></p></div>
+          <div class="message-block"><h2><%= message.date%></h2></div>
+        </li>
+        <% }) %>
+        <%} else {%>
+          <div class="error">
+            <h2>No posts yet :(</h2>            
+        </div>
+        <% } %>
+      </ul>
+    </main>
+  </body>
+</html>

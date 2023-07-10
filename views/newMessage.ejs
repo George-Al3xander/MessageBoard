@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/header.ejs") %>
+    <section>
+        <form method="POST" action="/new">
+            <div>
+                <input required name="author" id="author" placeholder="Author" type="text">
+                <input required name="title" id="title" placeholder="Title" type="text">
+            </div>
+            <div>
+                <textarea placeholder="Message" required name="messageText" id="messageText" cols="30" rows="10"></textarea>
+            </div>
+            <div><button>Submit</button></div>
+        </form>
+    </section>
+  </body>
+</html>
