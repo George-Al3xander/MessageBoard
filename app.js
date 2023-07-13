@@ -6,9 +6,10 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const messageRouter = require('./routes/newMessage');
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcryptjs")
 const app = express();
 const dbURI =  process.env.DB_URI;
+
 mongoose.connect(dbURI , {useNewUrlParser: true, useUnifiedTopology: true}).then((result) => {app.listen(3000);console.log("connected to db")}).catch((err) => {
     console.log(err)
 });
@@ -24,6 +25,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/new', messageRouter);
+
+app.get("/sign-up" , (req, res) => {
+  res.render("sign-up-form", {
+    title: "Sign up"
+  });
+})
+
+app.get("/login" , (req, res) => {
+  res.render("login", {
+    title: "Login"
+  });
+})
 app.use((req, res) => {
   res.render("404", {title: "404"})
 })
