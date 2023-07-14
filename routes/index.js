@@ -9,6 +9,9 @@ const User = require("../models/modelUser.js")
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs")
+const bodyParser = require("body-parser")
+const {check, validationResult} = require("express-validator");
+const urlencodedParser = bodyParser.urlencoded({extended: false})
 
 router.get('/', function(req, res, next) {  
   Message.find().sort({ createdAt: -1 }).then((result) => {
@@ -99,24 +102,54 @@ passport.deserializeUser(async function(id, done) {
   };
 });
 
-router.post("/sign-up", async (req, res, next) => {  
+router.post("/sign-up", urlencodedParser, [
+  check("username", "Username must be more than 4 characters long")
+  .exists()
+  .isLength({min: 4, max: 16}),
+  check("password", "Password must be more than 4 characters long ")
+  .exists()
+  .isLength({min: 8}),
+  check("password-confirm")
+  .exists()  
+  .custom(async (confirmPassword, {req}) => {
+    const password = req.body.password
+    if(password !== confirmPassword){
+      throw new Error('Passwords must be same')
+    }
+  }),
+  check("first_name", "First name must be at least 3 characters long")
+  .exists()
+  .isLength({min: 3, max: 16}),
+  check("last_name", "Last name must be at least 3 characters long")
+  .exists()
+  .isLength({min: 3, max: 16}),
+
+  
+] ,  async (req, res, next) => {  
   bcrypt.hash(req.body.password, 10 , async (err, hashedPassword) => {
-    try {
-      const user = new User({
-            username: req.body.username.toLowerCase().trim(),
-            password: hashedPassword,
-            name: {
-              first: req.body.first_name.trim(),
-              last: req.body.last_name.trim()
-            },
-            membership_status: false,
-            admin_status: false
-          });
-          const result = await user.save();
-          res.redirect("/log-in");
-    } catch(err) {
-        return next(err);
-      };
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      // try {
+      // const user = new User({
+      //       username: req.body.username.toLowerCase().trim(),
+      //       password: hashedPassword,
+      //       name: {
+      //         first: req.body.first_name.trim(),
+      //         last: req.body.last_name.trim()
+      //       },
+      //       membership_status: false,
+      //       admin_status: false
+      //     });
+      //     const result = await user.save();
+      //     res.redirect("/log-in");
+      // }  catch(err) {
+      //   return next(err);
+      // };
+      res.send("We good")
+    }
+    
   })
 });
 
@@ -163,6 +196,19 @@ router.post("/club-join", (req, res) => {
       message: "Try another time!"
     })
   }  
+})
+
+router.get("/control-panel", (req, res) => {
+  if(req.user && req.user.admin_status) {
+      User.find().then((result) => {
+        res.render("controlPanel", {
+          title: "Control panel",
+          users: result 
+        })
+      })
+    } else {
+      res.redirect("/")
+    }
 })
 
 module.exports = router;
