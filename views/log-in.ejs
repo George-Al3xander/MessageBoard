@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/header.ejs") %>    
+    <main>
+      <div class="container">
+  <form action="/log-in" method="POST" class="auth-form">
+    <legend>Log in</legend>
+    <fieldset>
+      <label for="username">Username</label>
+      <input class="username" name="username" placeholder="username" type="text" />
+    </fieldset>
+    <fieldset>
+      <label for="password" placeholder="password">Password</label>
+      <input name="password" type="password" />
+    </fieldset>    
+    <button>Login</button>
+  </form>
+      </div>
+    </main>
+  </body>
+</html>

@@ -4,7 +4,29 @@
   <body>
     <%- include("./partials/header.ejs") %>    
     <main>
-      <h1>Sign-up-form</h1>
+      <div class="container">
+  <form action="/sign-up" method="POST" class="auth-form">
+    <legend>Sign up</legend>
+    <fieldset>
+      <label for="username">Username</label>
+      <input class="username" name="username" placeholder="username" type="text" />
+    </fieldset>
+    <fieldset>
+      <label>First & last names</label>
+      <input name="first_name" placeholder="First name" type="text" />
+      <input name="last_name" placeholder="Last name" type="text" />
+    </fieldset>
+    <fieldset>
+      <label for="password" placeholder="password">Password</label>
+      <input name="password" type="password" />
+    </fieldset>
+    <fieldset>
+      <label for="password" placeholder="password">Confirm password</label>
+      <input name="password-confirm" type="password" />
+    </fieldset>
+    <button>Sign Up</button>
+  </form>
+      </div>
     </main>
   </body>
 </html>

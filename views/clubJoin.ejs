@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <%- include("./partials/head.ejs") %>
+  <body>
+    <%- include("./partials/header.ejs") %>
+    
+    <main>      
+      <div class="container">
+        <form action="/club-join" method="POST">
+          <fieldset>
+            <label for="passcode">Enter a passcode</label>
+            <input id="passcode" placeholder="Passcode...little hint: maybe it's full name of Meta CEO.." name="passcode" type="text">
+          </fieldset>
+          <button>Submit</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

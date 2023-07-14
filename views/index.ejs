@@ -4,14 +4,23 @@
   <body>
     <%- include("./partials/header.ejs") %>
     
-    <main>
+    <main>      
       <ul class="messages">
         <% if(messages.length > 0)  { %>
           <% messages.map((message) => {%>
         <li>
-          <div class="message-block"><h1><%= message.title%></h1> <h3><%= message.author%></h3></div>
+          <div class="message-block"><h1><%= message.title%></h1> 
+            <% if(locals.currentUser && locals.currentUser.membership_status) { %>
+              <h3><%= message.author%></h3>
+            <% } %>
+          </div>
           <div><p><%= message.messageText%></p></div>
-          <div class="message-block"><h2><%= message.date%></h2></div>
+          <% if(locals.currentUser && locals.currentUser.membership_status) { %>
+            <div class="message-block"><h2><%= message.date%></h2></div>
+            <% } %>
+            <% if(locals.currentUser && locals.currentUser.admin_status)  { %>              
+              <a class="delete" href="/delete/<%=message.id%>">Delete</a>
+            <% } %>
         </li>
         <% }) %>
         <%} else {%>

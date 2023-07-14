@@ -1,6 +1,17 @@
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/new">New message</a></li>           
+        <% if(!locals.currentUser) { %>
+            <li><a href="/log-in">Log in</a></li>
+            <li>/</li>
+            <li><a href="/sign-up">Sign up</a></li>
+        <%} else if(locals.currentUser && locals.currentUser.membership_status) {%>   
+            <li><a href="/new">New message</a></li>  
+            <li><a href="/log-out">Log out</a></li>
+        <% } else if(locals.currentUser && !locals.currentUser.membership_status) { %>        
+            <li><a href="/new">New message</a></li>  
+            <li><a href="/club-join">join the club</a></li>
+            <li><a href="/log-out">Log out</a></li>
+        <%}%>            
     </ul>
 </nav>     

@@ -6,10 +6,15 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const messageRouter = require('./routes/newMessage');
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs")
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+
+
 const app = express();
 const dbURI =  process.env.DB_URI;
-
+const User = require("./models/modelUser.js")
 mongoose.connect(dbURI , {useNewUrlParser: true, useUnifiedTopology: true}).then((result) => {app.listen(3000);console.log("connected to db")}).catch((err) => {
     console.log(err)
 });
@@ -23,20 +28,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/new', messageRouter);
 
-app.get("/sign-up" , (req, res) => {
-  res.render("sign-up-form", {
-    title: "Sign up"
-  });
-})
 
-app.get("/login" , (req, res) => {
-  res.render("login", {
-    title: "Login"
-  });
-})
 app.use((req, res) => {
   res.render("404", {title: "404"})
 })
