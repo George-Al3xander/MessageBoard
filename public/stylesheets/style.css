@@ -246,6 +246,10 @@ legend {
 }
 
 
+.errors {
+  color: red;
+}
+
 @media (max-width: 37.5rem) {
   header {
     flex-direction: column;

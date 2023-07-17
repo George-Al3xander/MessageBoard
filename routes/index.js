@@ -117,48 +117,65 @@ router.post("/sign-up", urlencodedParser, [
       throw new Error('Passwords must be same')
     }
   }),
+  check("username", "That user already exists")
+  .exists()
+  .custom(async (username, {req}) => {
+    const user = await User.find({username:  username});
+    if(Object.keys(user).length !== 0) {
+      throw new Error('That user already exists')
+    }
+  }),
   check("first_name", "First name must be at least 3 characters long")
   .exists()
   .isLength({min: 3, max: 16}),
   check("last_name", "Last name must be at least 3 characters long")
   .exists()
-  .isLength({min: 3, max: 16}),
-
-  
+  .isLength({min: 3, max: 16}),  
 ] ,  async (req, res, next) => {  
   bcrypt.hash(req.body.password, 10 , async (err, hashedPassword) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-      return res.status(422).jsonp(errors.array());
+      res.render("sign-up-form", {
+      title: "Sign up",
+      alerts: errors.array()
+    });
     } else {
-      // try {
-      // const user = new User({
-      //       username: req.body.username.toLowerCase().trim(),
-      //       password: hashedPassword,
-      //       name: {
-      //         first: req.body.first_name.trim(),
-      //         last: req.body.last_name.trim()
-      //       },
-      //       membership_status: false,
-      //       admin_status: false
-      //     });
-      //     const result = await user.save();
-      //     res.redirect("/log-in");
-      // }  catch(err) {
-      //   return next(err);
-      // };
-      res.send("We good")
+      try {
+      const user = new User({
+            username: req.body.username.toLowerCase().trim(),
+            password: hashedPassword,
+            name: {
+              first: req.body.first_name.trim(),
+              last: req.body.last_name.trim()
+            },
+            membership_status: false,
+            admin_status: false
+          });
+          const result = await user.save();
+          res.redirect("/log-in");
+      }  catch(err) {
+        return next(err);
+      };      
     }
     
   })
 });
 
 router.post(
-  "/log-in",
+  "/log-in", urlencodedParser,[
+    check("username", "Incorrect username or password")
+    .exists()
+    .custom(async (username, {req}) => {
+    const user = await User.find({username:  username});
+    if(Object.keys(user).length === 0) {
+      throw new Error('Incorrect username or password')
+    }
+  }),
+  ],
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/404"
-  })
+  })  
 );
 
 router.get("/log-out", (req, res, next) => {

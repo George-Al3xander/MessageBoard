@@ -7,6 +7,16 @@
       <div class="container">
   <form action="/sign-up" method="POST" class="auth-form">
     <legend>Sign up</legend>
+    <% if(typeof alerts != "undefined") { %>
+      <ul class="errors">
+
+        <% alerts.map((alert) => {  %>
+          <li>
+            <h1><%= alert.msg %></h1>
+          </li>
+          <% }) %>
+          <% } %>
+        </ul>
     <fieldset>
       <label for="username">Username</label>
       <input class="username" name="username" placeholder="username" type="text" />
