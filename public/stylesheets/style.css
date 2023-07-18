@@ -250,6 +250,32 @@ legend {
   color: red;
 }
 
+
+.users  {
+    width: 100%;
+    border-collapse:separate;
+    border-spacing: 0 2rem;    
+}
+
+
+ tr {
+  border: 1px solid white; 
+}
+
+.users h1 {
+  font-style: italic;
+}
+
+.users a {
+  opacity: .7;
+  text-transform: uppercase;
+}
+
+.users a:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
 @media (max-width: 37.5rem) {
   header {
     flex-direction: column;
@@ -273,8 +299,4 @@ legend {
   .auth-form input {
     width: 100%;
   }
-
-  
-  
- 
 }

@@ -2,10 +2,38 @@
 <html>
   <%- include("./partials/head.ejs") %>
   <body>
-    <%- include("./partials/header.ejs") %>
-    
-    <main>      
+    <%- include("./partials/header.ejs") %>    
+    <main> <div class="container">
       
+        <table class="users">
+          <% users.map((user) => {  %>
+            <tr>
+              <td>
+                <h1><%= user.username %></h1>
+              </td>
+              <td>
+                <a href="/change-membership-status/<%= user._id %>">
+                  <% if(!user.admin_status) { %>
+                    Make an member
+                  <% } else { %>
+                    Withdraw member status
+                    <% } %>
+                </a>
+              </td>
+              <td>
+                <a href="/change-admin-status/<%= user._id %>">
+                  <% if(!user.admin_status) { %>
+                    Make an admin
+                  <% } else { %>
+                    Withdraw admin status
+                    <% } %>
+                </a>
+              </td>
+              <td><a href="/delete-user/<%= user._id%>">Delete</a></td>
+            </tr>
+          <% }) %>
+        </ul>
+    </div>      
     </main>
   </body>
 </html>

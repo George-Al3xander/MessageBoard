@@ -228,4 +228,34 @@ router.get("/control-panel", (req, res) => {
     }
 })
 
+router.get("/change-membership-status/:id", (req, res) => {
+  const id = req.params.id;
+  const thatUser = User.findById(id)
+  User.findByIdAndUpdate(id, {
+    membership_status: !thatUser.membership_status
+  })
+  .then(() => {
+    res.redirect("/control-panel")
+  })
+})
+
+router.get("/change-admin-status/:id", (req, res) => {
+  const id = req.params.id;
+  const thatUser = User.findById(id)
+  User.findByIdAndUpdate(id, {
+    admin_status: !thatUser.admin_status
+  })
+  .then(() => {
+    res.redirect("/control-panel")
+  })
+})
+
+router.get("/delete-user/:id", (req, res) => {
+  const id = req.params.id;  
+  User.findByIdAndDelete(id)
+  .then(() => {
+    res.redirect("/control-panel")
+  })
+})
+
 module.exports = router;
