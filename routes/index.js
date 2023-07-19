@@ -31,8 +31,8 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post("/new", (req, res) => {   
-  const message =  new Message({...req.body, date: new Date()});
+router.post("/new", (req, res) => {    
+  const message =  new Message({...req.body, date: new Date(), author: req.user.username});
     message.save().then(() => {
         res.redirect("/")
     })  

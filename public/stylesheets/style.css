@@ -276,6 +276,13 @@ legend {
   opacity: 1;
 }
 
+form div:first-child > * {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+
+
 @media (max-width: 37.5rem) {
   header {
     flex-direction: column;
@@ -285,17 +292,7 @@ legend {
     margin-bottom: 2rem;
   }
 
-  form div:first-child > * {
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-
-  form div:last-child {
-    width: min-content;
-    margin-inline: auto;
-
-  }
-
+  
   .auth-form input {
     width: 100%;
   }
