@@ -12,8 +12,8 @@
                 <h1><%= user.username %></h1>
               </td>
               <td>
-                <a href="/change-membership-status/<%= user._id %>">
-                  <% if(!user.admin_status) { %>
+                <a href="/change-membership-status/<%= user._id %>/<%= user.membership_status %>">
+                  <% if(!user.membership_status) { %>
                     Make an member
                   <% } else { %>
                     Withdraw member status
@@ -21,7 +21,7 @@
                 </a>
               </td>
               <td>
-                <a href="/change-admin-status/<%= user._id %>">
+                <a href="/change-admin-status/<%= user._id %>/<%= user.admin_status %>">
                   <% if(!user.admin_status) { %>
                     Make an admin
                   <% } else { %>

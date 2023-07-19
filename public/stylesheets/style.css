@@ -253,7 +253,7 @@ legend {
 
 .users  {
     width: 100%;
-    border-collapse:separate;
+    border-collapse:collapse;
     border-spacing: 0 2rem;    
 }
 
@@ -298,5 +298,16 @@ legend {
 
   .auth-form input {
     width: 100%;
+  }
+  tr {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;    
+    text-align: center;
+  }
+
+  tr h1 {
+    border-bottom: 3px dotted white;
+    font-size: 1.5rem;
   }
 }

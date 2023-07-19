@@ -228,26 +228,44 @@ router.get("/control-panel", (req, res) => {
     }
 })
 
-router.get("/change-membership-status/:id", (req, res) => {
-  const id = req.params.id;
-  const thatUser = User.findById(id)
-  User.findByIdAndUpdate(id, {
-    membership_status: !thatUser.membership_status
-  })
+router.get("/change-membership-status/:id/true", (req, res) => {
+  const id = req.params.id;  
+  User.findByIdAndUpdate(id, {$set: {
+      membership_status: false
+    }})  
   .then(() => {
     res.redirect("/control-panel")
-  })
+  }).catch((err) => res.send({err}))
 })
 
-router.get("/change-admin-status/:id", (req, res) => {
-  const id = req.params.id;
-  const thatUser = User.findById(id)
-  User.findByIdAndUpdate(id, {
-    admin_status: !thatUser.admin_status
-  })
+router.get("/change-membership-status/:id/false", (req, res) => {
+  const id = req.params.id;  
+  User.findByIdAndUpdate(id, {$set: {
+      membership_status: true
+    }})  
   .then(() => {
     res.redirect("/control-panel")
-  })
+  }).catch((err) => res.send({err}))
+})
+
+router.get("/change-admin-status/:id/true", (req, res) => {
+  const id = req.params.id;  
+  User.findByIdAndUpdate(id, {$set: {
+    admin_status: false
+  }}) 
+  .then(() => {
+    res.redirect("/control-panel")
+  }).catch((err) => res.send({err}))
+})
+
+router.get("/change-admin-status/:id/false", (req, res) => {
+  const id = req.params.id;  
+  User.findByIdAndUpdate(id, {$set: {
+    admin_status: true
+  }}) 
+  .then(() => {
+    res.redirect("/control-panel")
+  }).catch((err) => res.send({err}))
 })
 
 router.get("/delete-user/:id", (req, res) => {
@@ -255,7 +273,7 @@ router.get("/delete-user/:id", (req, res) => {
   User.findByIdAndDelete(id)
   .then(() => {
     res.redirect("/control-panel")
-  })
+  }).catch((err) => res.send({err}))
 })
 
 module.exports = router;
