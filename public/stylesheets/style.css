@@ -281,7 +281,14 @@ form div:first-child > * {
   width: 100%;
 }
 
+.anotation {
+  opacity: .7;
+}
 
+.anotation span {
+  font-style: italic;
+  
+}
 
 @media (max-width: 37.5rem) {
   header {

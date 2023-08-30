@@ -161,8 +161,7 @@ router.post("/sign-up", urlencodedParser, [
   })
 });
 
-router.post(
-  "/log-in", urlencodedParser,[
+router.post("/log-in", urlencodedParser,[
     check("username", "Incorrect username or password")
     .exists()
     .custom(async (username, {req}) => {
